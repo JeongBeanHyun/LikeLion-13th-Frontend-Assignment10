@@ -8,7 +8,8 @@ import PasswordChange from "../components/PasswordChange";
 export default function Home() {
   const isLoggedIn = useAuthStore((s) => s.isLoggedIn);
   const [showChangePassword, setShowChangePassword] = useState(false);
-  const [passwordChanged, setPasswordChanged] = useState(false);
+  const passwordChanged = useAuthStore((s) => s.passwordChanged);
+  const setPasswordChanged = useAuthStore((s) => s.setPasswordChanged);
 
   return (
     <div className="home-page">
@@ -29,9 +30,7 @@ export default function Home() {
           비밀번호 변경
         </button>
       )}
-      {isLoggedIn && showChangePassword && (
-        <PasswordChange onSuccess={() => setPasswordChanged(true)} />
-      )}
+      {isLoggedIn && showChangePassword && <PasswordChange />}
       {passwordChanged && <p>비밀번호가 변경되었습니다.</p>}
     </div>
   );

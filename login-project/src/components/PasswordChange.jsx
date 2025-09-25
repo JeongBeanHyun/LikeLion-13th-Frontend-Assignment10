@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuthStore } from "../stores/authStore";
 import "../styles/PasswordChange.css";
 
-export default function PasswordChange({ onSuccess }) {
+export default function PasswordChange() {
   const [newPassword, setNewPassword] = useState("");
   const [oldPassword, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -13,14 +13,7 @@ export default function PasswordChange({ onSuccess }) {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const success = await changePassword(
-      oldPassword,
-      newPassword,
-      confirmPassword
-    );
-    if (success) {
-      onSuccess();
-    }
+    await changePassword(oldPassword, newPassword, confirmPassword);
   };
 
   return (

@@ -4,6 +4,7 @@ export const useAuthStore = create((set, get) => ({
   isLoggedIn: false,
   user: null,
   error: null,
+  passwordChanged: false,
 
   login: async (username, password) => {
     set({ error: null });
@@ -68,7 +69,10 @@ export const useAuthStore = create((set, get) => ({
       isLoggedIn: true,
       user: { ...user, password: newPassword },
       error: null,
+      passwordChanged: true,
     });
     return true;
   },
+
+  setPasswordChanged: (value) => set({ passwordChanged: value }),
 }));
