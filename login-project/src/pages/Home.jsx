@@ -20,6 +20,7 @@ export default function Home() {
       )}
       {isLoggedIn && !showChangePassword && (
         <button
+          className="home-password-button"
           onClick={() => {
             setShowChangePassword(true);
             setPasswordChanged(false);
