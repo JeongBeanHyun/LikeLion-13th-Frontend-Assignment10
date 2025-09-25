@@ -13,10 +13,6 @@ export default function PasswordChange({ onSuccess }) {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // if (newPassword !== confirmPassword) {
-    //   alert("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
-    //   return;
-    // }
     const success = await changePassword(
       oldPassword,
       newPassword,
