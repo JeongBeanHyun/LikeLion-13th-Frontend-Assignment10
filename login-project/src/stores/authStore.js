@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore = create((set, get) => ({
   isLoggedIn: false,
   user: null,
   error: null,
@@ -24,9 +24,44 @@ export const useAuthStore = create((set) => ({
       return false;
     }
 
-    set({ isLoggedIn: true, user: { username }, error: null });
+    set({ isLoggedIn: true, user: { username, password }, error: null });
     return true;
   },
 
   logout: () => set({ isLoggedIn: false, user: null, error: null }),
+
+  changePassword: async (oldPassword, newPassword) => {
+    set({ error: null });
+    const { user } = get();
+
+    if (user.password === newPassword) {
+      set({
+        error:
+          "현재 비밀번호와 새 비밀번호는 다르게 설정해야 합니다. 다시 시도해주십시오.",
+      });
+      return false;
+    }
+
+    if (user.password !== oldPassword) {
+      set({ error: "현재 비밀번호가 일치하지 않습니다." });
+      return false;
+    }
+
+    if (newPassword.length < 6) {
+      set({ error: "새 비밀번호는 최소 6자 이상이어야 합니다." });
+      return false;
+    }
+
+    if (!/\d/.test(newPassword)) {
+      set({ error: "새 비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다." });
+      return false;
+    }
+
+    set({
+      isLoggedIn: true,
+      user: { ...user, password: newPassword },
+      error: null,
+    });
+    return true;
+  },
 }));
