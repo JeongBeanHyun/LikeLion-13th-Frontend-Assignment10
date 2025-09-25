@@ -30,14 +30,14 @@ export const useAuthStore = create((set, get) => ({
 
   logout: () => set({ isLoggedIn: false, user: null, error: null }),
 
-  changePassword: async (oldPassword, newPassword) => {
+  changePassword: async (oldPassword, newPassword, checkPassword) => {
     set({ error: null });
     const { user } = get();
 
     if (user.password === newPassword) {
       set({
         error:
-          "현재 비밀번호와 새 비밀번호는 다르게 설정해야 합니다. 다시 시도해주십시오.",
+          "현재 비밀번호와 새 비밀번호는 다르게 설정해야 합니다. 다시 시도해주세요.",
       });
       return false;
     }
@@ -54,6 +54,13 @@ export const useAuthStore = create((set, get) => ({
 
     if (!/\d/.test(newPassword)) {
       set({ error: "새 비밀번호에는 최소 한 개의 숫자가 포함되어야 합니다." });
+      return false;
+    }
+
+    if (newPassword !== checkPassword) {
+      set({
+        error: "새 비밀번호와 확인 비밀번호가 다릅니다. 다시 시도해주세요.",
+      });
       return false;
     }
 
